@@ -196,7 +196,6 @@
             }
 
             $.post(site_url + 'api/search_host/?bk_biz_id='+buiness_id+'&ip_list='+$("#ip_list").val(),content,function(result){
-                            $("#datas").cleanData()
                             $.each(result.data.info, function (i, n) {
                                 var row = $("#tr-id").clone();
                                 row.find("#bk_host_innerip").text(n.host.bk_host_innerip);
