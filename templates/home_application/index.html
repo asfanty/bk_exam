@@ -216,6 +216,18 @@
             if ($(this).hasClass("check")) {
                 if (confirm('是否查询系统资源使用情况？')) {
                     // TODO
+                    content = {
+                        "bk_biz_id":buiness_id,
+                        "ip_list":[
+                            {
+                                "bk_cloud_id": 0,
+                                "ip": "10.0.0.1"
+                            }
+                        ]
+                    }
+                    $.post(site_url + 'api/execute_script/?bk_biz_id='+buiness_id,content,function(result){
+
+                    });
                 }
             } else if ($(this).hasClass("check-add")) {
                 if (confirm('是否加入周期检查列表？')) {

@@ -8,6 +8,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License.
 """
+import base64
 import json
 
 from django.http import JsonResponse
@@ -92,3 +93,47 @@ def search_host(request):
     result = client.cc.search_host(kwargs)
     return JsonResponse(result)
 
+
+#执行脚本
+def execute_script(request):
+    f = open('./media/stat.sh')
+    test = f.read()
+    test = base64.b64encode(test)
+    bk_app_id = int(request.GET.get('bk_biz_id'))
+    # content = json.loads(request.body)
+    client = get_client_by_request(request)
+    kwargs = {
+        "bk_biz_id": bk_app_id,
+        "script_content": test,
+        "script_param": "aGVsbG8=",
+        "script_timeout": 1000,
+        "account": "root",
+        "is_param_sensitive": 0,
+        "script_type": 1,
+        "ip_list": [
+            {
+                "bk_cloud_id": 0,
+                "ip": "10.0.1.13"
+            }
+        ],
+        "custom_query_id": [
+            "3"
+        ]
+    }
+    result = client.job.fast_execute_script(kwargs)
+
+    inst_id = result['data']['job_instance_id']
+    client = get_client_by_request(request)
+    kwargs = {
+        "bk_biz_id": bk_app_id,
+        "job_instance_id": inst_id
+    }
+    result = client.job.get_job_instance_status(kwargs)
+
+    client = get_client_by_request(request)
+    kwargs = {
+        "bk_biz_id": bk_app_id,
+        "job_instance_id": inst_id
+    }
+    result = client.job.get_job_instance_log(kwargs)
+    return JsonResponse(result)
