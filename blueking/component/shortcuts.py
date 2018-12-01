@@ -22,7 +22,7 @@ def get_client_by_request(request, **kwargs):
     if request.user.is_authenticated():
         bk_token = request.COOKIES.get('bk_token', '')
     else:
-        bk_token = ''
+        bk_token = 'fKeyX5Wph9bhZAxQ3zmXAt59SD1HB21VApuTpg54Dzk'
 
     common_args = {
         'bk_token': bk_token,

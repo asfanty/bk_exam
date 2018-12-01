@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<%inherit file="/base.html"/>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <!-- 若您需要使用Kendo UI Professional，请联系版权人获得合法的授权或许可。 -->
+    <!-- Bootstrap css -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/css/bootstrap.min.css"
+          rel="stylesheet">
+    <!-- kendo ui css
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/kendoui-2015.2.624/styles/kendo.common.min.css"
+          rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/kendoui-2015.2.624/styles/kendo.default.min.css"
+          rel="stylesheet">-->
+    <!-- font-awesome -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/fontawesome/css/font-awesome.css" rel="stylesheet">
+    <!--蓝鲸提供的公用样式库 -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk_pack.css" rel="stylesheet">
+    <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/jquery-1.10.2.min.js"></script>
+    <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/echarts-2.0/echarts-all.js"></script>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <!-- 包括所有kendoui的js插件或者可以根据需要使用的js插件调用　
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/kendoui-2015.2.624/js/kendo.all.min.js"></script>-->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/echarts-2.0/echarts-all.js"></script>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/bk/js/bk.js"></script>
+    <!-- 数据埋点统计 -->
+    <script src="http://magicbox.bk.tencent.com/static_api/analysis.js"></script>
+
+    <!-- 放到蓝鲸开发框架后，请引用csrftoken.js解决jquery下POST请求403问题，如果使用的是mako模板，可以直接去掉下面的注释 -->
+    <!--script src="${STATIC_URL}js/csrftoken.js?v=${STATIC_VERSION}" type="text/javascript"></script-->
+    <!-- 这个是全局配置，如果需要在js中使用app_id和site_url,则这个javascript片段一定要保留 -->
+    <!--script type="text/javascript">
+        var app_id = "${APP_ID}";
+        var site_url = "${SITE_URL}";	  // app的url前缀,在ajax调用的时候，应该加上该前缀
+        var static_url = "${STATIC_URL}"; // 静态资源前缀
+    </script-->
+
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]><script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/html5shiv.min.js"></script><script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body class="bg-white" data-bg-color="bg-white">
+<div class="king-page-box">
+    <div class="king-layout1-header">
+        <nav role="navigation" class="navbar navbar-default king-horizontal-nav2    f14 ">
+            <div class="container " style="width:100%;overflow:hidden;">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed navbar-toggle-sm" data-toggle="collapse"
+                            data-target="#king-horizontal-nav2-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="javascript:;">
+                        <img src="https://magicbox.bk.tencent.com/static_api/v3/bk/images/logo3.png" alt=""
+                             class="logo"> </a>
+                </div>
+                <div class="collapse navbar-collapse navbar-responsive-collapse" id="king-horizontal-nav2-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="king-navbar-active"><a href="javascript:void(0);">首页</a></li>
+                        <li><a href="javascript:void(0);">主机状态</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="javascript:;">
+                                <span>miya</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="king-layout2-main mt15" style="width:1100px;">
+        <form class="form-horizontal">
+            <div class="form-group clearfix ">
+                <label class="col-sm-2 control-label bk-lh30 pt0">请选择业务：</label>
+                <div class="col-sm-10">
+                    <select name="" id="search_business" class="form-control bk-valign-top">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group clearfix ">
+                <label class="col-sm-2 control-label bk-lh30 pt0">请输入主机IP：</label>
+                <div class="col-sm-10">
+                    <textarea id="ip_list" class="form-control" rows="3" placeholder="多个IP用回车分割"></textarea>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="button" class="king-btn mr10  king-success" id="button-search">查询</button>
+                </div>
+            </div>
+        </form>
+        <div class="panel panel-default mb0">
+            <div class="panel-heading">主机列表</div>
+            <div class="panel-body">
+                <table class="table mb0 pr15 ranger-box2  " id="datas">
+                    <thead>
+                    <tr>
+                        <th>内网IP</th>
+                        <th>系统名</th>
+                        <th>主机名</th>
+                        <th>云区域</th>
+                        <th>Mem(%)</th>
+                        <th>Disk(%)</th>
+                        <th>CPU(%)</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody-ip">
+                    <tr data-hostid="1" id="tr-id">
+                        <td id="bk_host_innerip"></td>
+                        <td id="bk_os_name"></td>
+                        <td id="bk_host_name"></td>
+                        <td id="bk_inst_name"></td>
+
+                        <td class="info">--</td>
+                        <td class="info">--</td>
+                        <td class="info">--</td>
+
+                        <td>
+                            <div class="hidden td-loading">
+                                <img alt="loadding"
+                                     src="https://magicbox.bk.tencent.com/static_api/v3/components/loading1/images/loading_2_16x16.gif">&nbsp;查询中...
+                            </div>
+                            <div class="td-operate">
+                                <a data-ip="10.0.1.45" data-cloud="0" class="btn btn-xs btn-success check">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                                <a data-ip="10.0.1.45" data-cloud="0" class="btn btn-xs btn-danger check-del ">
+                                    <i class="fa fa-eye-slash"></i>
+                                </a>
+                                <a data-ip="10.0.1.45" data-cloud="0"
+                                   class="btn btn-xs btn-warning check-add hidden">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+</script>
+<script>
+    var buiness_id = 0
+    $.ajax({
+        // url: '${ SITE_URL }api/get_hosts/',
+        url: site_url + 'api/get_business/',
+        type: 'GET',
+        data: {},
+        success: function (res) {
+
+            for(var i = 0;i<res.data.info.length;i++){
+                if(i < 1 ){
+                    buiness_id = res.data.info[i].bk_biz_id
+                }
+                 $("#search_business").append("<option value='"+res.data.info[i].bk_biz_id+"'>"+res.data.info[i].bk_biz_name+"</option>")
+            }
+
+        }
+    });
+    $("#search_business").change(function () {
+            buiness_id = $("#search_business").val()
+        })
+    $(function () {
+
+        // 查询主机
+        $("#button-search").on('click', function (e) {
+
+            // TODO
+            var content = {
+                 "bk_biz_id":buiness_id,
+                 "ip_list":$("#ip_list").val()
+            }
+
+            $.post(site_url + 'api/search_host/?bk_biz_id='+buiness_id+'&ip_list='+$("#ip_list").val(),content,function(result){
+                            $("#datas").cleanData()
+                            $.each(result.data.info, function (i, n) {
+                                var row = $("#tr-id").clone();
+                                row.find("#bk_host_innerip").text(n.host.bk_host_innerip);
+                                row.find("#bk_os_name").text(n.host.bk_os_name);
+                                row.find("#bk_host_name").text(n.host.bk_host_name);
+                                row.find("#bk_inst_name").text(n.host.bk_cloud_id[0].bk_inst_name);
+                                row.appendTo("#datas");//添加到模板的容器中
+                            });
+
+              });
+
+
+        });
+        // 主机表格事件绑定
+        $("#tbody-ip").on('click', '.check, .check-add, .check-del', function (e) {
+
+            // 立即检查
+            if ($(this).hasClass("check")) {
+                if (confirm('是否查询系统资源使用情况？')) {
+                    // TODO
+                }
+            } else if ($(this).hasClass("check-add")) {
+                if (confirm('是否加入周期检查列表？')) {
+                    // TODO
+                }
+            } else if ($(this).hasClass("check-del")) {
+                if (confirm('是否从周期检查列表中移除？')) {
+                    // TODO
+                }
+            }
+        })
+    });
+</script>
+</body>
+
+</html>
